@@ -60,7 +60,7 @@ enable_testing()
 
 add_subdirectory(example)
 add_subdirectory(src)
-add_subdirectory(tests)
+#add_subdirectory(tests)
 add_subdirectory(v8runner)
 
 # Enable coverage report
