@@ -1,4 +1,4 @@
-include(FindGMock)
+find_package(GMock)
 
 include_directories(
   ${GTEST_INCLUDE_DIRS}
