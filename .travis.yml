@@ -1,0 +1,26 @@
+language: cpp
+
+matrix:
+  include:
+  - os: linux
+    compiler: gcc
+  - os: linux
+    compiler: clang
+
+before_script:
+    - mkdir debug
+    - cd debug
+    - cmake -D CMAKE_BUILD_TYPE=Debug ..
+    - cd ..
+    - mkdir release
+    - cd release
+    - cmake -D CMAKE_BUILD_TYPE=Release ..
+    - cd ..
+
+script:
+    - cd debug
+    - make all
+    - cd ..
+    - cd release
+    - make all
+    - cd ..
