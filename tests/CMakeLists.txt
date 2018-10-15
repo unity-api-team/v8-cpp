@@ -1,11 +1,3 @@
-find_package(GMock)
-
-include_directories(
-  ${GTEST_INCLUDE_DIRS}
-  ${GMOCK_INCLUDE_DIRS}
-  ${TEST_INCLUDE_DIRS}
-)
-
 add_subdirectory(errors)
 add_subdirectory(functions)
 add_subdirectory(members)

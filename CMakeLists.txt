@@ -49,9 +49,12 @@ include(EnableCoverageReport)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/v8/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/deps/v8/testing/gtest/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/deps/node/src
 )
 link_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/v8/out/native/obj.target/tools/gyp
+    ${CMAKE_CURRENT_SOURCE_DIR}/deps/v8/out/native/obj.target/testing
 )
 
 # Add sources

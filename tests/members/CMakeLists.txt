@@ -23,10 +23,7 @@ target_link_libraries(
     test-members
 
     v8-cpp
-
-    ${GTEST_BOTH_LIBRARIES}
-    ${GMOCK_LIBRARIES}
-    ${TEST_LDFLAGS}
+    gtest
 )
 
 add_test(

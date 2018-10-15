@@ -19,4 +19,4 @@ cache_dir = None'
 gclient sync
 
 cd v8
-make -j3 native i18nsupport=off
+make -j3 native i18nsupport=off snapshot=on

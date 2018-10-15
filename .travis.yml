@@ -1,11 +1,8 @@
 language: cpp
+compiler: gcc
 
-matrix:
-  include:
-  - os: linux
-    compiler: gcc
-  - os: linux
-    compiler: clang
+install:
+    - sudo apt-get install lcov gcovr
 
 before_script:
     - mkdir debug

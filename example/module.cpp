@@ -136,5 +136,4 @@ void InitAll(Local<Object> exports)
     exports->SetPrototype(module.create_prototype());
 }
 
-///!NODE_MODULE(addon, InitAll)
-V8CPP_MODULE(addon, InitAll)
+NODE_MODULE(addon, InitAll)

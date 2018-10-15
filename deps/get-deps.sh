@@ -11,3 +11,7 @@ fi
 if ! [ -d "v8" ]; then
     git clone --depth 1 --branch 4.5.103.30 https://chromium.googlesource.com/v8/v8.git
 fi
+
+if ! [ -d "node" ]; then
+    git clone --depth 1 --branch v4.0.0-rc https://github.com/nodejs/node.git
+fi
