@@ -163,3 +163,9 @@ TEST(Test, construct_var_args_class_via_new)
 
     EXPECT_EQ(test_object.zero(), 1);
 }
+
+int main(int argc, char **argv)
+{
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}

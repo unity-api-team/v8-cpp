@@ -108,18 +108,19 @@ public:
         v8::EscapableHandleScope scope(isolate_);
 
         using raw_ptr_class = Class<typename IsSharedPointer<T>::type>;
-        v8::Local<v8::Object> v8_object = raw_ptr_class::instance(isolate_).class_template()->GetFunction()->NewInstance();
+        v8::Local<v8::Object> v8_object;
+        raw_ptr_class::instance(isolate_).class_template()->GetFunction()->NewInstance(isolate_->GetCurrentContext()).ToLocal(&v8_object);
         v8_object->SetAlignedPointerInInternalField(0, (void *) object->get());
         v8_object->SetAlignedPointerInInternalField(1, &raw_ptr_class::instance(isolate_));
         v8_object->SetAlignedPointerInInternalField(2, object);
 
         MoveablePersistent<v8::Object> v8_object_p(isolate_, v8_object);
-        v8_object_p.SetWeak(object, [](v8::WeakCallbackData<v8::Object, T> const& data)
+        v8_object_p.SetWeak(object, [](v8::WeakCallbackInfo<T> const& data)
                             {
                                 v8::Isolate* isolate = data.GetIsolate();
                                 T* object = data.GetParameter();
                                 raw_ptr_class::instance(isolate).remove_object<T>(isolate, object, &ObjectFactory<T>::delete_object);
-                            });
+                            }, v8::WeakCallbackType::kParameter);
 
         raw_ptr_class::instance(isolate_).add_object(object, std::move(v8_object_p));
 
@@ -132,13 +133,14 @@ public:
         v8::EscapableHandleScope scope(isolate_);
 
         auto object_sptr = new std::shared_ptr<T>(object);
-        v8::Local<v8::Object> v8_object = class_template()->GetFunction()->NewInstance();
+        v8::Local<v8::Object> v8_object;
+        class_template()->GetFunction()->NewInstance(isolate_->GetCurrentContext()).ToLocal(&v8_object);
         v8_object->SetAlignedPointerInInternalField(0, object);
         v8_object->SetAlignedPointerInInternalField(1, this);
         v8_object->SetAlignedPointerInInternalField(2, object_sptr);
 
         MoveablePersistent<v8::Object> v8_object_p(isolate_, v8_object);
-        v8_object_p.SetWeak(object_sptr, [](v8::WeakCallbackData<v8::Object, std::shared_ptr<T>> const& data)
+        v8_object_p.SetWeak(object_sptr, [](v8::WeakCallbackInfo<std::shared_ptr<T>> const& data)
                             {
                                 v8::Isolate* isolate = data.GetIsolate();
 
@@ -147,7 +149,7 @@ public:
 
                                 T* object = object_sptr->get();
                                 instance(isolate).remove_object<T>(isolate, object, nullptr);
-                            });
+                            }, v8::WeakCallbackType::kParameter);
 
         add_object(object, std::move(v8_object_p));
 
@@ -178,7 +180,7 @@ public:
 
         while (value->IsObject())
         {
-            v8::Local<v8::Object> object = value->ToObject();
+            v8::Local<v8::Object> object = value->ToObject(isolate_);
             if (object->InternalFieldCount() == 3)
             {
                 void* ptr = object->GetAlignedPointerFromInternalField(0);
@@ -205,7 +207,7 @@ public:
 
         while (value->IsObject())
         {
-            v8::Local<v8::Object> object = value->ToObject();
+            v8::Local<v8::Object> object = value->ToObject(isolate_);
             if (object->InternalFieldCount() == 3)
             {
                 void* ptr = object->GetAlignedPointerFromInternalField(0);

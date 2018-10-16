@@ -62,12 +62,12 @@ struct Convert<std::basic_string<Char, Traits, Alloc>>
 
         if (sizeof(Char) == 1)
         {
-            v8::String::Utf8Value str(value);
+            v8::String::Utf8Value str(isolate, value);
             return FromType(reinterpret_cast<Char const*>(*str), str.length());
         }
         else
         {
-            v8::String::Value str(value);
+            v8::String::Value str(isolate, value);
             return FromType(reinterpret_cast<Char const*>(*str), str.length());
         }
     }
@@ -105,7 +105,7 @@ struct Convert<bool>
         {
             throw std::invalid_argument("expected bool value");
         }
-        return value->ToBoolean()->Value();
+        return value->ToBoolean(isolate)->Value();
     }
 
     static ToType to_v8(v8::Isolate* isolate, bool value)
@@ -143,16 +143,16 @@ struct Convert<T, typename std::enable_if<std::is_integral<T>::value>::type>
         {
             if (is_signed)
             {
-                return static_cast<T>(value->Int32Value());
+                return static_cast<T>(value->Int32Value(isolate->GetCurrentContext()).FromJust());
             }
             else
             {
-                return static_cast<T>(value->Uint32Value());
+                return static_cast<T>(value->Uint32Value(isolate->GetCurrentContext()).FromJust());
             }
         }
         else
         {
-            return static_cast<T>(value->IntegerValue());
+            return static_cast<T>(value->IntegerValue(isolate->GetCurrentContext()).FromJust());
         }
     }
 
@@ -225,7 +225,7 @@ struct Convert<T, typename std::enable_if<std::is_floating_point<T>::value>::typ
             throw std::invalid_argument("expected float value");
         }
 
-        return static_cast<T>(value->NumberValue());
+        return static_cast<T>(value->NumberValue(isolate->GetCurrentContext()).FromJust());
     }
 
     static ToType to_v8(v8::Isolate* isolate, T value)

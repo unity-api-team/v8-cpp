@@ -35,3 +35,9 @@ TEST(Test, run_test_script_2)
 
     EXPECT_EQ(test_object.i(), 7);
 }
+
+int main(int argc, char **argv)
+{
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}

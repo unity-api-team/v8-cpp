@@ -8,7 +8,7 @@ execute_process(
   COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/deps/get-deps.sh
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
   RESULT_VARIABLE _DEPS_RESULT
-  )
+)
 
 if(NOT _DEPS_RESULT EQUAL 0)
   message(FATAL_ERROR "Retrieving deps failed")
@@ -21,11 +21,11 @@ project(v8-cpp CXX)
 add_definitions(
     -std=c++11
     -fno-permissive
-    -pedantic
     -Wall
     -Wextra
     -fPIC
     -Wno-unused-parameter
+    -Wno-unused-result
 )
 
 # Configure CMake environment
@@ -49,12 +49,10 @@ include(EnableCoverageReport)
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/v8/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/deps/v8/testing/gtest/include
     ${CMAKE_CURRENT_SOURCE_DIR}/deps/node/src
 )
 link_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/deps/v8/out/native/obj.target/tools/gyp
-    ${CMAKE_CURRENT_SOURCE_DIR}/deps/v8/out/native/obj.target/testing
+    ${CMAKE_CURRENT_SOURCE_DIR}/deps/v8/out/x64.release
 )
 
 # Add sources

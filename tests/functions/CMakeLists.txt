@@ -23,7 +23,7 @@ target_link_libraries(
     test-functions
 
     v8-cpp
-    gtest
+    ${GTEST_LIBRARIES}
 )
 
 add_test(

@@ -55,7 +55,7 @@ void InitAll(Local<Object> exports)
     module.add_function("complex_function", &complex_function);
     module.add_function("complex_set_function", &complex_set_function);
 
-    exports->SetPrototype(module.create_prototype());
+    exports->SetPrototype(isolate->GetCurrentContext(), module.create_prototype());
 }
 
 V8CPP_MODULE(addon, InitAll)
