@@ -121,3 +121,9 @@ TEST(Test, call_return_enum)
 
     EXPECT_EQ(result, TestCaller::TestEnum::ONE);
 }
+
+int main(int argc, char **argv)
+{
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}

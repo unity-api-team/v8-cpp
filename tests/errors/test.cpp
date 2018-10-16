@@ -247,3 +247,9 @@ TEST(Test, throw_from_module)
         EXPECT_STREQ(e.what(), "Uncaught Error: BOOM!");
     }
 }
+
+int main(int argc, char **argv)
+{
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}

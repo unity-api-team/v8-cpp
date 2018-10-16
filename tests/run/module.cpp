@@ -38,7 +38,7 @@ void InitAll(Local<Object> exports)
 
     module.add_class("TestClass", testclass);
 
-    exports->SetPrototype(module.create_prototype());
+    exports->SetPrototype(isolate->GetCurrentContext(), module.create_prototype());
 }
 
 V8CPP_MODULE(addon, InitAll)

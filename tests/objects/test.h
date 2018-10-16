@@ -48,7 +48,7 @@ class TestClassVariableConstructorArgs
 public:
     TestClassVariableConstructorArgs(v8::FunctionCallbackInfo<v8::Value> const& args) {
     if (args.Length() > 0 && args[0]->IsNumber()) {
-        v_ = args[0]->ToNumber()->Value();
+        v_ = args[0]->ToNumber(v8::Isolate::GetCurrent())->Value();
       }
     }
 

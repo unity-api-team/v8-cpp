@@ -1,0 +1,7 @@
+/CMakeLists.txt.user
+/deps/.gclient
+/deps/.gclient_entries
+/deps/depot_tools
+/deps/node
+/deps/v8
+*~

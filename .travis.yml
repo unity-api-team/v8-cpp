@@ -1,0 +1,28 @@
+language: cpp
+compiler: gcc
+
+install:
+    - sudo apt-get install lcov gcovr libgtest-dev cmake
+    - cd /usr/src/gtest
+    - sudo cmake .
+    - sudo make
+    - sudo cp *.a /usr/lib
+    - cd -
+
+before_script:
+    - mkdir debug
+    - cd debug
+    - cmake -D CMAKE_BUILD_TYPE=Debug ..
+    - cd ..
+    - mkdir release
+    - cd release
+    - cmake -D CMAKE_BUILD_TYPE=Release ..
+    - cd ..
+
+script:
+    - cd debug
+    - make all
+    - cd ..
+    - cd release
+    - make all
+    - cd ..

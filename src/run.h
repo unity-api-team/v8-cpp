@@ -20,6 +20,8 @@
 
 #include <internal/require.h>
 
+#include <v8.h>
+
 #include <fstream>
 #include <memory>
 
@@ -30,7 +32,7 @@ template <typename T = v8::Local<v8::Value>>
 T run_script(std::string const& source, std::string const& filename = "")
 {
     // Create an isolate
-    std::shared_ptr<v8::Isolate> isolate(v8::Isolate::New(), [](v8::Isolate* isolate)
+    std::shared_ptr<v8::Isolate> isolate(v8::Isolate::New(v8::Isolate::CreateParams()), [](v8::Isolate* isolate)
     {
         // Force garbage collection before returning
         std::string const v8_flags = "--expose_gc";
@@ -89,8 +91,8 @@ T run_script(std::string const& source, std::string const& filename = "")
     v8::Context::Scope context_scope(context);
 
     // Compile the script.
-    v8::Local<v8::Script> script = v8::Script::Compile(v8cpp::to_v8(isolate.get(), source),
-                                                       v8cpp::to_v8(isolate.get(), filename));
+    v8::Local<v8::Script> script;
+    v8::Script::Compile(context, v8cpp::to_v8(isolate.get(), source)).ToLocal(&script);
 
     // Run the script.
     if (script.IsEmpty())
@@ -105,9 +107,10 @@ T run_script(std::string const& source, std::string const& filename = "")
         }
     }
 
-    v8::TryCatch try_catch;
+    v8::TryCatch try_catch(isolate.get());
 
-    auto result = script->Run();
+    v8::Local<v8::Value> result;
+    script->Run(isolate.get()->GetCurrentContext()).ToLocal(&result);
 
     if (try_catch.HasCaught())
     {

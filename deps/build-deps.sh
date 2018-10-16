@@ -2,9 +2,10 @@
 
 DIR=$(readlink -f $(dirname ${BASH_SOURCE[0]}))
 
-cd $DIR
+export PATH=$DIR/depot_tools:"$PATH"
 
-export PATH=./depot_tools:"$PATH"
+cd $DIR/v8
+
 gclient config --spec 'solutions = [
   { "name"        : "v8",
     "url"         : "https://chromium.googlesource.com/v8/v8.git",
@@ -16,8 +17,7 @@ gclient config --spec 'solutions = [
   },
 ]
 cache_dir = None'
+
 gclient sync
 
-cd v8
-git apply $DIR/patches/v8/*.patch
-make -j3 native i18nsupport=off
+../gm.py x64.release

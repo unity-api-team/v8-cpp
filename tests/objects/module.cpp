@@ -62,7 +62,7 @@ void InitAll(Local<Object> exports)
 
     module.add_function("new_TestClass", &new_TestClass);
 
-    exports->SetPrototype(module.create_prototype());
+    exports->SetPrototype(isolate->GetCurrentContext(), module.create_prototype());
 }
 
 V8CPP_MODULE(addon, InitAll)

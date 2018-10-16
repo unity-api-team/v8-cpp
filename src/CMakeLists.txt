@@ -17,9 +17,7 @@ set_target_properties(
 target_link_libraries(
     v8-cpp
 
-    v8_base
-    v8_libbase
-    v8_snapshot
+    v8
 
     dl
     pthread

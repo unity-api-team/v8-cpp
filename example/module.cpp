@@ -133,8 +133,7 @@ void InitAll(Local<Object> exports)
     module.add_function("new_MyObject2", &new_MyObject2);
     module.add_function("new_SearchHandler", &new_SearchHandler);
 
-    exports->SetPrototype(module.create_prototype());
+    exports->SetPrototype(isolate->GetCurrentContext(), module.create_prototype());
 }
 
-///!NODE_MODULE(addon, InitAll)
-V8CPP_MODULE(addon, InitAll)
+NODE_MODULE(addon, InitAll)

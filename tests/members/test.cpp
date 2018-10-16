@@ -57,3 +57,9 @@ TEST(Test, get_set_members_from_js)
     EXPECT_FLOAT_EQ(test_struct.float_value, -0.88);
     EXPECT_EQ(test_struct.string_value, "hello there");
 }
+
+int main(int argc, char **argv)
+{
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
