@@ -2,7 +2,7 @@ language: cpp
 compiler: gcc
 
 install:
-    - sudo apt-get install lcov gcovr libgtest-dev
+    - sudo apt-get install lcov gcovr libgtest-dev cmake
     - cd /usr/src/gtest
     - sudo cmake .
     - sudo make
